@@ -26,47 +26,70 @@ import org.xml.sax.SAXException;
  * @author MorganWillis
  */
 public class Database {
+    
+    // Hold all of the addresses needed
     String saveAddress;
     String loadAddress;
     String sectionalAddress;
     
-    public void Save(PrepArea saveArea) {
-        
-    }
-    
-    public PrepArea Load() {
-        
-        return null;
-    }
-    
+    /**
+     * returns the save address
+     * @return 
+     */
     public String getSaveAddress() {
         return saveAddress;
     }
     
+    /** 
+     * saves the save address
+     */
     public void setSaveAddress(String newSave) {
         saveAddress = newSave;
     }
     
+    /**
+     * Gets the load address
+     * @return 
+     */
     public String getLoadAddress() {
         return loadAddress;
     }
     
+    /**
+     * sets the sectional address
+     * @param newAddress 
+     */
     public void setSectionalAddress(String newAddress) {
         sectionalAddress = newAddress;
     }
     
+    /**
+     * Gets the sectional address
+     * @return 
+     */
     public String getSectionalAddress() {
         return sectionalAddress;
     }
+    
+    /**
+     * Sets the load address
+     * @param newLoad 
+     */
     public void setLoadAddress(String newLoad) {
         loadAddress = newLoad;
     }
     
-    public void saveSectional(Sectional saveSectional) {
+    /**
+     * Loads a sectional from the xml file
+     * @return
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException 
+     */
+    public ArrayList<Sectional> loadSectional() 
+            throws ParserConfigurationException, SAXException, IOException {
         
-    }
-    
-    public ArrayList<Sectional> loadSectional() throws ParserConfigurationException, SAXException, IOException {
+        // Hold all of our sectionals that are read in
         ArrayList<Sectional> newSectional;
         newSectional = new ArrayList<Sectional>();
         
@@ -105,9 +128,16 @@ public class Database {
         return newSectional;
     }
     
+    /**
+     * Creates a new sectional
+     * @param elem
+     * @return 
+     */
     private Sectional createSectional(Element elem) {
         
+        // Will hold the new sectional
         Sectional newSectional = new Sectional();
+        
         // Get the value of the ID attribute.
         newSectional.setName(elem.getAttribute("Name"));
                         
