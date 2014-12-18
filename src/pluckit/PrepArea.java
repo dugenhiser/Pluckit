@@ -115,7 +115,9 @@ public class PrepArea {
      * @throws Docx4JException
      * @throws Exception 
      */
-    public void exportToWord(String address, ArrayList<WritableImage> pic) throws AWTException, IOException, InvalidFormatException, Docx4JException, Exception {
+    public void exportToWord(String address, ArrayList<WritableImage> pic) 
+            throws AWTException, IOException, InvalidFormatException, 
+            Docx4JException, Exception {
 
         // Create the package to allow for exporting
         wordMLPackage = WordprocessingMLPackage.createPackage();
@@ -133,10 +135,11 @@ public class PrepArea {
         String picAddress = "C:\\PluckIt\\pic.png";
         success = new File("C:\\PluckIt").exists();
         
+        System.out.println(pic.size());
+        
         // Make sure the folder exists
-       
-        if(success)
-        {
+        if(success) {
+            
             // Copy all the pictures and insert them into the word document
             for (int i = 0; i < pic.size(); i++) {
                 
@@ -152,22 +155,24 @@ public class PrepArea {
                 newView.setFitWidth(100);
                 
                 // Save the image
-                RenderedImage renderedImage = SwingFXUtils.fromFXImage(newView.snapshot(null, null), null);
+                RenderedImage renderedImage 
+                        = SwingFXUtils.fromFXImage(newView
+                                .snapshot(null, null), null);
                 ImageIO.write(renderedImage, "png", file);
                 System.out.println("Image created and saved");
 
                 // Create cell contents
-                P paragraphWithImage = addInlineImageToParagraph(createInlineImage(file));
-                P paragraphOfText = wordMLPackage.getMainDocumentPart().createParagraphOfText("");
+                P paragraphWithImage 
+                        = addInlineImageToParagraph(createInlineImage(file));
+                P paragraphOfText 
+                        = wordMLPackage.getMainDocumentPart().createParagraphOfText("");
 
-              
                 // Add contents to the table
-                  addTableCell(tr, paragraphWithImage);
-                  addTableCell(trU, paragraphOfText);
+                addTableCell(tr, paragraphWithImage);
+                addTableCell(trU, paragraphOfText);
 
                 // Create a new row after we reach the end of the document
-                if (i % 5 == 4 || i+1 == pic.size())
-                {
+                if (i % 5 == 4 || (i + 1) == pic.size()) {
                     table.getContent().add(tr);
                     table.getContent().add(trU);
                     
@@ -176,8 +181,6 @@ public class PrepArea {
                     trU = factory.createTr();
 
                 }
-                
-              
                 
                 // Delete current picture to save space 
                 file.delete();
@@ -201,7 +204,8 @@ public class PrepArea {
         try {
 
             // Create the document
-            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilderFactory docFactory 
+                    = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
             // create the root element
@@ -222,7 +226,8 @@ public class PrepArea {
             }
 
             // write the content into xml file
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            TransformerFactory transformerFactory 
+                    = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(doc);
             StreamResult result
@@ -230,7 +235,9 @@ public class PrepArea {
 
             // Give the xml an indent for easier reading
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+            transformer
+                    .setOutputProperty("{http://xml.apache.org/xslt}indent-amount"
+                            , "2");
 
             transformer.transform(source, result);
 
@@ -249,7 +256,8 @@ public class PrepArea {
      * @throws SAXException
      * @throws IOException 
      */
-    public void loadSong(String address) throws ParserConfigurationException, SAXException, IOException {
+    public void loadSong(String address) throws ParserConfigurationException, 
+            SAXException, IOException {
 
         song = new ArrayList<Chord>();
 
@@ -325,6 +333,10 @@ public class PrepArea {
         }
     }
 
+    /**
+     * The following code was adapted from the docx4j library.
+     */
+    
     /**
      * Adds a table cell to the given row with the given paragraph as content.
      *
